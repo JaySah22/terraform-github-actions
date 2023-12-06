@@ -29,6 +29,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Install Azure CLI
+        run: |
+          curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+        if: runner.os == 'linux'  
+
       - name: Upload Configuration
         uses: hashicorp/tfc-workflows-github/actions/upload-configuration@v1.0.0
         id: plan-upload
