@@ -21,6 +21,9 @@ jobs:
       with:
         terraform_version: 1.6.5
 
+    - name: Login to Azure
+      run: az login --service-principal -u ${{ secrets.CLIENT_ID }} -p ${{ secrets.CLIENT_SECRET }} --tenant ${{ secrets.TENANT_ID }}    
+
     - name: Configure Terraform Cloud
       run: |
         echo "credentials \"$TF_CLOUD_WORKSPACE_NAME\" { \n  token = \"$TF_CLOUD_API_TOKEN\" \n}" > $HOME/.terraformrc
