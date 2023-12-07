@@ -37,7 +37,7 @@ jobs:
      
     - name: Debugging
       run: |
-          cat $HOME/.terraformrc
+          cat $GITHUB_WORKSPACE/.terraformrc
           echo "TF_CLOUD_WORKSPACE_NAME: $TF_CLOUD_WORKSPACE_NAME"
           echo "TF_CLOUD_API_TOKEN: $TF_CLOUD_API_TOKEN"    
 
