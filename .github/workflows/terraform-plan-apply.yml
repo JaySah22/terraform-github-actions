@@ -55,7 +55,9 @@ jobs:
 
     - name: Configure Terraform Cloud
       run: |
-        echo "credentials \"$TF_CLOUD_WORKSPACE_NAME\" { \n  token = \"$TF_CLOUD_API_TOKEN\" \n}" > $GITHUB_WORKSPACE/.terraformrc
+        echo "credentials \"$TF_CLOUD_WORKSPACE_NAME\" {" > $GITHUB_WORKSPACE/.terraformrc
+        echo "  token = \"$TF_CLOUD_API_TOKEN\"" >> $GITHUB_WORKSPACE/.terraformrc
+        echo "}" >> $GITHUB_WORKSPACE/.terraformrc
       env:
         TF_CLOUD_WORKSPACE_NAME: dev-workspace
         TF_CLOUD_API_TOKEN: ${{ secrets.TF_API_TOKEN }}  
