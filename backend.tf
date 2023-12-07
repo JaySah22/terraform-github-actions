@@ -1,6 +1,8 @@
 terraform {
   backend "remote" {
-    organization = "ecp-shell-prod"
-    workspace = "dev-workspace"
-  }
+     organization = "ecp-shell-prod"
+      workspaces {
+        name  = "dev-workspace"
+      }
+   }
 }
