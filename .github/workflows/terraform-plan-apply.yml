@@ -30,6 +30,16 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y curl
         curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+        echo 'export PATH=$PATH:/usr/local/bin' >> $HOME/.bashrc
+        source $HOME/.bashrc
+
+    - name: Debug PATH
+      run: echo "PATH=$PATH"
+
+    - name: Debug Azure CLI Installation
+      run: ls -l /usr/local/bin
+      
+
 
     - name: Check Azure CLI Version
       run: |
