@@ -1,59 +1,43 @@
-name: "Terraform Azure Plan"
+name: Terraform Cloud Workflow
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
 
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
-env:
-  TF_CLOUD_ORGANIZATION: "ecp-shell-prod"
-  TF_API_TOKEN: "${{ secrets.TF_API_TOKEN }}"
-  TF_WORKSPACE: "dev-workspace"
-  CONFIG_DIRECTORY: "./"
-  ARM_CLIENT_ID: "${{ secrets.CLIENT_ID }}"
-  ARM_SUBSCRIPTION_ID: "${{ secrets.SUBSCRIPTION_ID }}"
-  ARM_TENANT_ID: "${{ secrets.TENANT_ID }}"
+# Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:      
 
 jobs:
   terraform:
-    name: "Terraform Plan"
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: write
+
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+    - name: Checkout Repository
+      uses: actions/checkout@v2
 
-      - name: Install Azure CLI
-        run: |
-          curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
-        if: runner.os == 'linux'  
+    - name: Set up Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: 1.6.5
 
-      - name: Upload Configuration
-        uses: hashicorp/tfc-workflows-github/actions/upload-configuration@v1.0.0
-        id: plan-upload
-        with:
-          workspace: ${{ env.TF_WORKSPACE }}
-          directory: ${{ env.CONFIG_DIRECTORY }}
-          speculative: true
+    - name: Configure Terraform Cloud
+      run: |
+        echo "credentials \"$TF_CLOUD_WORKSPACE_NAME\" { \n  token = \"$TF_CLOUD_API_TOKEN\" \n}" > $HOME/.terraformrc
+      env:
+        TF_CLOUD_WORKSPACE_NAME: dev-workspace
+        TF_CLOUD_API_TOKEN: ${{ secrets.TF_API_TOKEN }}
 
-      - name: Create Plan Run
-        uses: hashicorp/tfc-workflows-github/actions/create-run@v1.0.0
-        id: plan-run
-        with:
-          workspace: ${{ env.TF_WORKSPACE }}
-          configuration_version: ${{ steps.plan-upload.outputs.configuration_version_id }}
-          plan_only: true
+    - name: Terraform Init
+      run: terraform init
 
-      - name: Get Plan Output
-        uses: hashicorp/tfc-workflows-github/actions/plan-output@v1.0.0
-        id: plan-output
-        with:
-          plan: ${{ fromJSON(steps.plan-run.outputs.payload).data.relationships.plan.data.id }}
+    - name: Terraform Plan
+      run: terraform plan -out=tfplan
+
+  
+    - name: Terraform Show
+      run: terraform show
+
+
 
       
