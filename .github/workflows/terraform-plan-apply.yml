@@ -44,6 +44,11 @@ jobs:
     - name: Check Azure CLI Version
       run: |
           az --version    
+        
+    - name: Find Azure CLI Path
+      run: |
+        az_path=$(command -v az)
+        echo "Azure CLI Path: $az_path"      
 
     - name: Login to Azure
       run: az login --service-principal -u ${{ secrets.CLIENT_ID }} -p ${{ secrets.CLIENT_SECRET }} --tenant ${{ secrets.TENANT_ID }}    
