@@ -64,7 +64,10 @@ jobs:
       run: |
           cat $GITHUB_WORKSPACE/.terraformrc
           echo "TF_CLOUD_WORKSPACE_NAME: $TF_CLOUD_WORKSPACE_NAME"
-          echo "TF_CLOUD_API_TOKEN: $TF_CLOUD_API_TOKEN"    
+          echo "TF_CLOUD_API_TOKEN: $TF_CLOUD_API_TOKEN"   
+          
+    - name: Set Azure CLI Path
+      run: echo "PATH=$PATH:/usr/bin/az" >> $GITHUB_ENV      
 
     - name: Terraform Init
       run: terraform init

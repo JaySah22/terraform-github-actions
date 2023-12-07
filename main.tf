@@ -11,6 +11,7 @@ terraform {
 
 provider "azurerm" {
   features {}
+  executable_path = "/usr/bin/az"
 }
 
 resource "azurerm_resource_group" "rg" {
