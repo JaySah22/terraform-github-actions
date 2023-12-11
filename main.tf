@@ -2,7 +2,7 @@ terraform {
   backend "remote" {
      organization = "ecp-shell-prod"
       workspaces {
-        name  = "dev-workspace"
+        name  = var.workspace_name
       }
   }
   required_providers {
@@ -28,11 +28,6 @@ variable "prefix"{
 }
 
 resource "azurerm_resource_group" "rg" {
-  name     = "${var.prefix}-RG"
-  location = "westus2"
-}
-
-resource "azurerm_resource_group" "resgrp" {
   name     = "${var.prefix}-RG"
   location = "westus2"
 }

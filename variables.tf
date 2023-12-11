@@ -17,3 +17,8 @@ variable "tenant_id"{
     description = "Azure tenant id"
     default     = "default-tenant-id"
 }
+
+variable "workspace_name"{
+    description = "Default workspace name"
+    default     = "default-workspace-name"
+}
