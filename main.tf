@@ -27,7 +27,7 @@ variable "prefix"{
   default = "azure"
 }
 
-resource "azurerm_resource_group" "rg" {
+resource "azurerm_resource_group" "resgrp" {
   name     = "${var.prefix}-RG"
   location = "westus2"
 }
