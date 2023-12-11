@@ -1,5 +1,5 @@
 locals {
-  workspace_name = "${var.workspace_name}
+  workspace_name = "${var.workspace_name}"
 }
 
 terraform {
