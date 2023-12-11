@@ -1,6 +1,13 @@
+locals {
+  workspace_name = "${var.workspace_name}
+}
+
 terraform {
   backend "remote" {
      organization = "ecp-shell-prod"
+     workspaces {
+        name  = local.workspace_name
+      }
   }
   required_providers {
     azurerm = {
