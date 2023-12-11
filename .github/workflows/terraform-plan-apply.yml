@@ -1,87 +1,53 @@
-name: Terraform Cloud Workflow
+name: Terraform Cloud Github actions Workflow
 
 on:
   push:
     branches:
       - main
 
-# Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:      
+  workflow_dispatch:    
 
 jobs:
-  terraform:
-    runs-on: ubuntu-latest
+    terraform:
+      name: 'Terraform'
+      runs-on: ubuntu-latest
 
-    steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v2
-
-    - name: Set up Terraform
-      uses: hashicorp/setup-terraform@v1
-      with:
-        terraform_version: 1.6.5
-        cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
-
-    - name: Check Terraform version
-      run: terraform version    
-      
-    - name: Install Azure CLI
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y curl
-        curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
-        echo 'export PATH=$PATH:/usr/local/bin' >> $HOME/.bashrc
-        source $HOME/.bashrc
-
-    - name: Debug PATH
-      run: echo "PATH=$PATH"
-
-    - name: Debug Azure CLI Installation
-      run: ls -l /usr/local/bin
-      
-
-
-    - name: Check Azure CLI Version
-      run: |
-          az --version    
-        
-    - name: Find Azure CLI Path
-      run: |
-        az_path=$(command -v az)
-        echo "Azure CLI Path: $az_path"      
-
-    - name: Login to Azure
-      run: az login --service-principal -u ${{ secrets.CLIENT_ID }} -p ${{ secrets.CLIENT_SECRET }} --tenant ${{ secrets.TENANT_ID }}    
-
-    - name: Configure Terraform Cloud
-      run: |
-        echo "credentials \"$TF_CLOUD_WORKSPACE_NAME\" {" > $GITHUB_WORKSPACE/.terraformrc
-        echo "  token = \"$TF_CLOUD_API_TOKEN\"" >> $GITHUB_WORKSPACE/.terraformrc
-        echo "}" >> $GITHUB_WORKSPACE/.terraformrc
-      env:
-        TF_CLOUD_WORKSPACE_NAME: dev-workspace
-        TF_CLOUD_API_TOKEN: ${{ secrets.TF_API_TOKEN }}  
-     
-    - name: Debugging
-      run: |
-          cat $GITHUB_WORKSPACE/.terraformrc
-          echo "TF_CLOUD_WORKSPACE_NAME: $TF_CLOUD_WORKSPACE_NAME"
-          echo "TF_CLOUD_API_TOKEN: $TF_CLOUD_API_TOKEN"   
-          
-    - name: Set Azure CLI Path
-      run: echo "PATH=$PATH:/usr/bin/az" >> $GITHUB_ENV      
-
-    - name: Terraform Init
-      run: terraform init
-
-    - name: Terraform Plan
-      run: terraform plan -input=false
-
-    - name: Terraform Apply
-      run: terraform apply -auto-approve -input=false
+      # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
+      defaults:
+        run:
+          shell: bash
   
-    - name: Terraform Show
-      run: terraform show
+      steps:
+      # Checkout the repository to the GitHub Actions runner
+      - name: Checkout
+        uses: actions/checkout@v3
+  
+      # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.6.5"
+          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+  
+      # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
+      - name: Terraform Init
+        run: terraform init
+  
+  
+      # Generates an execution plan for Terraform
+      - name: Terraform Plan
+        run: terraform plan -input=false
+        env:
+          ARM_CLIENT_ID: ${{ secrets.CLIENT_ID }}
+          ARM_CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+          ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
+          ARM_TENANT_ID: ${{ secrets.TENANT_ID }}
+          ARM_ENVIRONMENT: "public"
+          
+      - name: Terraform Apply
+        run: terraform apply -auto-approve -input=false
+  
+  
 
 
 
