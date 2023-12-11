@@ -17,13 +17,17 @@ terraform {
 
 provider "azurerm" {
   features {}
-  subscription_id = "1af33bc5-933a-4adb-a1d8-c918bb130617"
-  client_id       = "9dcb2e79-45a0-44e7-af6f-9c5cb8e80448"
-  client_secret   = "eVD8Q~HIWN2qlQgb47M4NoWc58mR83iOGfwbAayq"
-  tenant_id       = "537d52c8-0006-44bf-9eb7-7183bc5d2b46"
+  subscription_id = var.subscription_id
+  client_id       = var.client_id
+  client_secret   = var.client_secret
+  tenant_id       = var.tenant_id
+}
+
+variable "prefix"{
+  default = "azure"
 }
 
 resource "azurerm_resource_group" "rg" {
-  name     = "DeMoRG"
+  name     = "${var.prefix}-RG
   location = "westus2"
 }
