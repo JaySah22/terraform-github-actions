@@ -23,8 +23,10 @@ jobs:
       - name: Configure Terraform Cloud
         run: |
           echo "credentials \"$<your-organization-name>\" { token = \${{ secrets.TF_API_TOKEN }} }" >> ~/.terraformrc
-          terraform init -backend-config="organization=ecp-shell-prod" -backend-config="workspace=dev-workspace"
-  
+      
+      - name: Terraform Init
+        run: terraform init    
+        
       - name: Terraform Plan
         run: terraform plan -out=tfplan
   
