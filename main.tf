@@ -4,7 +4,7 @@ terraform {
       workspaces {
         name  = "dev-workspace"
       }
-   }
+  }
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
