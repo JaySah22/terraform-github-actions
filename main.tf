@@ -1,4 +1,10 @@
 terraform {
+  backend "remote" {
+     organization = "ecp-shell-prod"
+      workspaces {
+        name  = "dev-workspace"
+      }
+   }
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
