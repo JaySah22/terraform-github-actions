@@ -22,7 +22,7 @@ jobs:
   
       - name: Configure Terraform Cloud
         run: |
-          echo "credentials \"$ecp-shell-prod\" { token = \${{ secrets.TF_API_TOKEN }} }" >> ~/.terraformrc
+          echo "credentials \"app.terraform.io\" { token = \${{ secrets.TF_API_TOKEN }} }" >> ~/.terraformrc
           cat ~/.terraformrc
           terraform init 
 
