@@ -24,6 +24,6 @@ provider "azurerm" {
 }
 
 resource "azurerm_resource_group" "rg" {
-  name     = "Testing"
+  name     = "DeMoRG"
   location = "westus2"
 }
