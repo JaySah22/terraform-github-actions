@@ -1,9 +1,6 @@
 terraform {
   backend "remote" {
      organization = "ecp-shell-prod"
-      workspaces {
-        name  = var.workspace_name
-      }
   }
   required_providers {
     azurerm = {
