@@ -63,14 +63,15 @@ jobs:
             
             cat <<EOL > "$output_file"
             organization = "ecp-shell-prod"
-            
-            workspaces {
-              name  = "$workspace_name"
-            }
+                 workspaces {
+                    name  = "$workspace_name"
+                 }
             EOL
             
             echo "Terraform configuration generated successfully in $output_file."    
-  
+            ls -l
+            cat $output_file
+
       # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
       - name: Terraform Init
         run: terraform init -backend-config=backend.hcl
