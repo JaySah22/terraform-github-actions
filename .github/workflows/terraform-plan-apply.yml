@@ -28,6 +28,40 @@ jobs:
         with:
           terraform_version: "1.6.5"
           cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+
+      - name: Generate backend.hcl
+        run: |
+            #!/bin/bash
+            
+            # Specify the path to your .tfvars file
+            tfvars_file="terraform.tfvars"
+            
+            # Check if the .tfvars file exists
+            if [ ! -f "$tfvars_file" ]; then
+              echo "Error: .tfvars file not found."
+              exit 1
+            fi
+            
+            # Read the workspace_name variable from the .tfvars file
+            workspace_name=$(grep -E '^workspace_name\s*=' "$tfvars_file" | awk -F'=' '{gsub(/[[:space:]]*/, "", $2); print $2}')
+            
+            # Check if the workspace_name variable is set
+            if [ -z "$workspace_name" ]; then
+              echo "Error: workspace_name variable not found in .tfvars file."
+              exit 1
+            fi
+            
+            output_file="backend.hcl"
+            
+            cat <<EOL > "$output_file"
+            organization = "ecp-shell-prod"
+            
+            workspaces {
+              name  = "$workspace_name"
+            }
+            EOL
+            
+            echo "Terraform configuration generated successfully in $output_file."    
   
       # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
       - name: Terraform Init
