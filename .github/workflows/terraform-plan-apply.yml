@@ -57,9 +57,6 @@ jobs:
             fi
             
             output_file="backend.hcl"
-
-            # Debugging: List files in the current directory
-            ls -l
             
             cat <<EOL > "$output_file"
             organization = "ecp-shell-prod"
