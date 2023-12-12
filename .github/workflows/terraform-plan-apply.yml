@@ -27,7 +27,7 @@ jobs:
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: "1.6.5"
-          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }} 
 
       - name: Generate backend.hcl
         run: |
@@ -35,6 +35,10 @@ jobs:
             
             # Specify the path to your .tfvars file
             tfvars_file="terraform.tfvars"
+
+            # Debugging: Print the current directory
+            echo "Current directory: $(pwd)"
+            echo $tfvars_file
             
             # Check if the .tfvars file exists
             if [ ! -f "$tfvars_file" ]; then
@@ -52,6 +56,9 @@ jobs:
             fi
             
             output_file="backend.hcl"
+
+            # Debugging: List files in the current directory
+            ls -l
             
             cat <<EOL > "$output_file"
             organization = "ecp-shell-prod"
