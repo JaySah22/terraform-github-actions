@@ -48,7 +48,7 @@ jobs:
             fi
             
             # Read the workspace_name variable from the .tfvars file
-            workspace_name=$(grep -E '^workspace_name\s*=' "$tfvars_file" | awk -F'=' '{gsub(/[[:space:]]*/, "", $2); print $2}')
+            workspace_name=$(grep -E '^workspace_name\s*=' "$tfvars_file" | awk -F'=' '{gsub(/[[:space:]]*/, "", $2); gsub("\"", "", $2); print $2}')
             
             # Check if the workspace_name variable is set
             if [ -z "$workspace_name" ]; then
