@@ -39,6 +39,7 @@ jobs:
             # Debugging: Print the current directory
             echo "Current directory: $(pwd)"
             echo $tfvars_file
+            ls -l
             
             # Check if the .tfvars file exists
             if [ ! -f "$tfvars_file" ]; then
