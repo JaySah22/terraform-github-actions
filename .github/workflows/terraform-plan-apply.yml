@@ -65,7 +65,7 @@ jobs:
                  }
             EOL
             
-            echo "Terraform configuration generated successfully in $output_file."    
+            echo "Terraform Configuration generated successfully in $output_file."    
             ls -l
             cat $output_file
 
