@@ -3,7 +3,7 @@ variable "workspace_name"{
     default     = "default-workspace-name"
 }
 
-variable "subscription_id"{
+/*variable "subscription_id"{
     description = "Azure subscription ID"
     default     = "default-subscription-id"
 }
@@ -22,3 +22,4 @@ variable "client_id"{
     description = "Azure client id"
     default     = "default-client-id"
 }
+*/
