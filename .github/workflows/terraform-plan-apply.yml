@@ -94,9 +94,9 @@ jobs:
           terraform workspace show  
   
   
-      # # Generates an execution plan for Terraform
-      # - name: Terraform Plan
-      #   run: terraform plan -input=false
+      # Generates an execution plan for Terraform
+      - name: Terraform Plan
+        run: terraform plan -input=false
       #   # env:
       #   #   ARM_CLIENT_ID: ${{ secrets.CLIENT_ID }}
       #   #   ARM_CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
