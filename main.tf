@@ -2,7 +2,9 @@ terraform {
   cloud {
      organization = "ecp-shell-prod"
 
-     workspaces {}
+     workspaces {
+         name = "dev-workspace"
+     }
   }
   required_providers {
     azurerm = {
