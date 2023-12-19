@@ -27,7 +27,7 @@ jobs:
         id: workspace_name
         run: |
            # Load the content of the TFVars file
-           TFVARS_CONTENT=$(cat $terraform.tfvars)
+           TFVARS_CONTENT=$(cat terraform.tfvars)
  
            # Extract the specific variable value
            workspace=$(echo "$TFVARS_CONTENT" | grep -Eo 'workspace_name\s*=\s*"[^"]+"' | awk -F'"' '{print $2}')
