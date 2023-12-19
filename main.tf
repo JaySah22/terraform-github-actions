@@ -3,7 +3,7 @@ terraform {
      organization = "ecp-shell-prod"
 
      workspaces {
-         name = "dev-workspace"
+         tags = "dev-workspace"
      }
   }
   required_providers {
