@@ -76,7 +76,7 @@ jobs:
             cat <<EOL > "$output_file"
             organization = "ecp-shell-prod"
                  workspaces {
-                    prefix  = "$workspace_name"
+                    tags  = "$workspace_name"
                  }
             EOL
             
