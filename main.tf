@@ -1,10 +1,10 @@
 terraform {
   cloud {
-     organization = "ecp-shell-prod"
-
-     workspaces {
-         tags = ["dev-workspace"]
-     }
+    organization = "ecp-shell-prod"
+    workspaces {
+      project = "dna"
+      tags = ["tfautomationtest"]
+    }
   }
   required_providers {
     azurerm = {
