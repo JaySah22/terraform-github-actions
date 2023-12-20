@@ -22,20 +22,20 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-       # Import the workspace variables from tfvar      
-      - name: Read TFVars Value
-        id: workspace_name
-        run: |
-           # Load the content of the TFVars file
-           TFVARS_CONTENT=$(cat terraform.tfvars)
+      #  # Import the workspace variables from tfvar      
+      # - name: Read TFVars Value
+      #   id: workspace_name
+      #   run: |
+      #      # Load the content of the TFVars file
+      #      TFVARS_CONTENT=$(cat terraform.tfvars)
  
-           # Extract the specific variable value
-           workspace=$(echo "$TFVARS_CONTENT" | grep -Eo 'workspace_name\s*=\s*"[^"]+"' | awk -F'"' '{print $2}')
+      #      # Extract the specific variable value
+      #      workspace=$(echo "$TFVARS_CONTENT" | grep -Eo 'workspace_name\s*=\s*"[^"]+"' | awk -F'"' '{print $2}')
  
-           # Now use $Workspace in subsequent steps or output it as needed
-           echo "workspace=$workspace" >> $GITHUB_OUTPUT
-           echo "workspace: $workspace"
-           export TF_WORKSPACE=$workspace  
+      #      # Now use $Workspace in subsequent steps or output it as needed
+      #      echo "workspace=$workspace" >> $GITHUB_OUTPUT
+      #      echo "workspace: $workspace"
+      #      export TF_WORKSPACE=$workspace  
   
       # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
       - name: Setup Terraform
@@ -44,49 +44,49 @@ jobs:
           terraform_version: "1.6.5"
           cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }} 
 
-      # - name: Generate backend.hcl
-      #   run: |
-      #       #!/bin/bash
+      - name: Generate backend.hcl
+        run: |
+            #!/bin/bash
             
-      #       # Specify the path to your .tfvars file
-      #       tfvars_file="terraform.tfvars"
+            # Specify the path to your .tfvars file
+            tfvars_file="terraform.tfvars"
 
-      #       # Debugging: Print the current directory
-      #       echo "Current directory: $(pwd)"
-      #       echo $tfvars_file
-      #       ls -l
+            # Debugging: Print the current directory
+            echo "Current directory: $(pwd)"
+            echo $tfvars_file
+            ls -l
             
-      #       # Check if the .tfvars file exists
-      #       if [ ! -f "$tfvars_file" ]; then
-      #         echo "Error: .tfvars file not found."
-      #         exit 1
-      #       fi
+            # Check if the .tfvars file exists
+            if [ ! -f "$tfvars_file" ]; then
+              echo "Error: .tfvars file not found."
+              exit 1
+            fi
             
-      #       # Read the workspace_name variable from the .tfvars file
-      #       workspace_name=$(grep -E '^workspace_name\s*=' "$tfvars_file" | awk -F'=' '{gsub(/[[:space:]]*/, "", $2); gsub("\"", "", $2); print $2}')
+            # Read the workspace_name variable from the .tfvars file
+            workspace_name=$(grep -E '^workspace_name\s*=' "$tfvars_file" | awk -F'=' '{gsub(/[[:space:]]*/, "", $2); gsub("\"", "", $2); print $2}')
             
-      #       # Check if the workspace_name variable is set
-      #       if [ -z "$workspace_name" ]; then
-      #         echo "Error: workspace_name variable not found in .tfvars file."
-      #         exit 1
-      #       fi
+            # Check if the workspace_name variable is set
+            if [ -z "$workspace_name" ]; then
+              echo "Error: workspace_name variable not found in .tfvars file."
+              exit 1
+            fi
             
-      #       output_file="backend.hcl"
+            output_file="backend.hcl"
             
-      #       cat <<EOL > "$output_file"
-      #       organization = "ecp-shell-prod"
-      #            workspaces {
-      #               name  = "$workspace_name"
-      #            }
-      #       EOL
+            cat <<EOL > "$output_file"
+            organization = "ecp-shell-prod"
+                 workspaces {
+                    name  = "$workspace_name"
+                 }
+            EOL
             
-      #       echo "Terraform Configuration generated successfully in $output_file."    
-      #       ls -l
-      #       cat $output_file
+            echo "Terraform Configuration generated successfully in $output_file."    
+            ls -l
+            cat $output_file
 
       # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
       - name: Terraform Init
-        run: terraform init 
+        run: terraform init -backend-config=backend.hcl
 
       # Show the selected terraform workspace
       - name: Terraform workspace show

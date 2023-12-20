@@ -1,11 +1,5 @@
 terraform {
-  cloud {
-    organization = "ecp-shell-prod"
-    workspaces {
-      project = "dna"
-      tags = ["tfautomationtest"]
-    }
-  }
+  cloud {}
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
