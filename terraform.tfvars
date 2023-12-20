@@ -1,1 +1,1 @@
-workspace_name = "dev-workspace"
+workspace_name = "qa-workspace"

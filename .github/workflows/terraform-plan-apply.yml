@@ -89,11 +89,11 @@ jobs:
       - name: Terraform Init
         run: terraform init -backend-config=backend.hcl
 
-      # List and Select terraform workspace
-      - name: Terraform workspace select
-        run: |
-          terraform workspace list
-          terraform workspace select $workspace_name  
+      # # List and Select terraform workspace
+      # - name: Terraform workspace select
+      #   run: |
+      #     terraform workspace list
+      #     terraform workspace select $workspace_name  
 
       # Show the selected terraform workspace
       - name: Terraform workspace show
