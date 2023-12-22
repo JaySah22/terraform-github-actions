@@ -74,7 +74,7 @@ jobs:
             output_file="backend.hcl"
             
             cat <<EOL > "$output_file"
-            organization = "ecp-shell-proddd"
+            organization = "ecp-shell-prod"
                  workspaces {
                     name  = "$workspace_name"
                  }
@@ -113,7 +113,7 @@ jobs:
           
       - name: Terraform Apply
         id: terraform-apply
-        run: terraform apply -auto-approve -input=false
+        run: terraform applyy -auto-approve -input=false
 
       - name: Install mailutils
         run: sudo apt-get update && sudo apt-get install -y mailutils  
