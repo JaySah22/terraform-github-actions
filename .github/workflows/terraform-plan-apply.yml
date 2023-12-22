@@ -115,6 +115,9 @@ jobs:
         id: terraform-apply
         run: terraform apply -auto-approve -input=false
 
+      - name: Install mailutils
+        run: sudo apt-get update && sudo apt-get install -y mailutils  
+
       - name: Email to Notify success 
         if: steps.terraform-apply.outcome == 'success'  
         run : |
