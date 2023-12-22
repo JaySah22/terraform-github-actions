@@ -111,8 +111,8 @@ jobs:
       #   #   ARM_TENANT_ID: ${{ secrets.TENANT_ID }}
       #   #   ARM_ENVIRONMENT: "public"
           
-      # - name: Terraform Apply
-      #   run: terraform apply -auto-approve -input=false
+      - name: Terraform Apply
+        run: terraform apply -auto-approve -input=false
   
   # Send Email Notification    
     notify-success:
