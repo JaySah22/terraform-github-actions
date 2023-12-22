@@ -3,7 +3,7 @@ name: Terraform Cloud Github actions WorkfloW
 on:
   push:
     branches:
-      - main
+      - my-poc
 
   workflow_dispatch:    
 
@@ -74,7 +74,7 @@ jobs:
             output_file="backend.hcl"
             
             cat <<EOL > "$output_file"
-            organization = "ecp-shell-prod"
+            organization = "ecp-shell-proddd"
                  workspaces {
                     name  = "$workspace_name"
                  }
