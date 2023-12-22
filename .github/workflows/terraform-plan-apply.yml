@@ -1,4 +1,4 @@
-name: Terraform Cloud Github actions Workflow
+name: Terraform Cloud Github actions WorkfloW
 
 on:
   push:
