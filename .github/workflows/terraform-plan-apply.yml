@@ -114,8 +114,48 @@ jobs:
       # - name: Terraform Apply
       #   run: terraform apply -auto-approve -input=false
   
-  
+  # Send Email Notification    
+    notify-success:
+      runs-on: ubuntu-latest
+      needs: terraform
+      if: success()
+      steps:
+        - name: Install sendmail
+          run: sudo apt-get update && sudo apt-get install -y mailutils
+        
+        - name: Send Success Email Notification
+          # env:
+          #     SMTP_SERVER: smtp.gmail.com
+          #     SMTP_PORT: 587
+          #     SMTP_USERNAME: jayanta.saha1022@gmail.com
+          #     EMAIL_PAT: ${{ secrets.EMAIL01}}
+          #     TO_EMAIL: jayanta.saha@shell.com
+          #     FROM_EMAIL: ${{ github.actor }}@users.noreply.github.com
+          run: |
+            echo "Terraform Apply Succeeded" | mail -s "github workflow" -a "From: ${{ github.actor }}@users.noreply.github.com" jayanta.saha@shell.com
 
+   
+        #echo "Subject: Terraform Apply Succeeded" | sendmail -S $SMTP_SERVER:$SMTP_PORT -xu $SMTP_USERNAME -xp $EMAIL_PAT -f $FROM_EMAIL $TO_EMAIL
+          
+    
+    notify-failure:
+      runs-on: ubuntu-latest
+      needs: terraform
+      if: failure()
+      steps:
+        - name: Install sendmail
+          run: sudo apt-get update && sudo apt-get install -y mailutils
 
+        - name: Send Failure Email Notification
+          # env:
+          #   SMTP_SERVER: smtp.gmail.com
+          #   SMTP_PORT: 587
+          #   SMTP_USERNAME: jayanta.saha1022@gmail.com
+          #   EMAIL_PAT: ${{ secrets.EMAIL01}}
+          #   TO_EMAIL: jayanta.saha@shell.com
+          #   FROM_EMAIL: ${{ github.actor }}@users.noreply.github.com
+          run: |
+            echo "Terraform Apply Failed" | mail -s "github workflow" -a "From: ${{ github.actor }}@users.noreply.github.com" jayanta.saha@shell.com
+          # echo "Subject: Terraform Apply Failed" | sendmail -S $SMTP_SERVER:$SMTP_PORT -xu $SMTP_USERNAME -xp $EMAIL_PAT -f $FROM_EMAIL $TO_EMAIL
 
       
