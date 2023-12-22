@@ -44,6 +44,9 @@ jobs:
           terraform_version: "1.6.5"
           cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }} 
 
+      - name: Install mailutils
+        run: sudo apt-get update && sudo apt-get install -y mailutils      
+
       - name: Generate backend.hcl
         run: |
             #!/bin/bash
@@ -115,8 +118,6 @@ jobs:
         id: terraform-apply
         run: terraform applyy -auto-approve -input=false
 
-      - name: Install mailutils
-        run: sudo apt-get update && sudo apt-get install -y mailutils  
 
       - name: Email to Notify success 
         if: steps.terraform-apply.outcome == 'success'  
