@@ -77,7 +77,7 @@ jobs:
             output_file="backend.hcl"
             
             cat <<EOL > "$output_file"
-            organization = "ecp-shell-prodd"
+            organization = "ecp-shell-prod"
                  workspaces {
                     name  = "$workspace_name"
                  }
