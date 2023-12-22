@@ -124,7 +124,7 @@ jobs:
           echo "Terraform Apply Succeeded" | mail -s "github workflow" -a "From: ${{ github.actor }}@users.noreply.github.com" jayanta.saha@shell.com
   
       - name: Email to Notify failure
-        if: steps.terraform-apply.outcome == 'failure'  
+        if: failure()  
         run : |
             echo "Terraform Apply Failed" | mail -s "github workflow" -a "From: ${{ github.actor }}@users.noreply.github.com" jayanta.saha@shell.com    
   
